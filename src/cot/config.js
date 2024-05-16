@@ -1,4 +1,5 @@
 
+module.exports =
 class Config {
   constructor() {
 
@@ -7,7 +8,5 @@ class Config {
   get(item) {
 
   }
-  
-}
 
-module.exports = new Config();
+}
