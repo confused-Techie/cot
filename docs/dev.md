@@ -70,3 +70,31 @@ The package itself never defines any custom SQL instead the data provided in it'
 What this also means is that we could define all supported metadata as a single simple file that defines the key items everything uses. Just with special support in writing to the database. Which we could surpass with using dot notation to define what table in the database we are actually writing too.
 
 This seems like the best solution, even if maybe a little bit slow on queries, but ideally, we would rarely need additional metadata fields in the actual database.
+
+## Metadata Definition Ideas
+
+To define custom metadata lets look at what needs to be included:
+
+* DataType:
+  - This is used to display in the UI (multiple pages)
+  - Used to do some basic validation on the query parameter probably?
+  - Used to define the field on the package's table
+* Description:
+  - Just used on the UI side of things
+* Restrictions:
+  - Used to help generate the rules of the query parameter validation
+* Migrations:
+  - In case we want to support migrations of values, this should be built right in
+
+# Config Precedence
+
+Obviously copying config methodology from Pulsar. But there's no language-scoped settings so it may be unwarranted complexity.
+
+But still wanting to give it a try, it at least helps to prioritize options from multiple levels of precedence.
+
+Such as:
+  - environ
+  - config file (json, yaml, etc)
+  - default
+
+For the config file I want permissions to be awesome here, so we could do that with groups, where each section of permissions can be given ownership to a user group and only they are then allowed to edit the files.
