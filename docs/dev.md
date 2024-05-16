@@ -32,3 +32,41 @@ Meaning we have the following events a package can hook up to:
   - ingress: When a call is made for new files to be imported
   - metadata: When a call is made to generate metadata on a specific file.
   - egress: When a call is made to convert an item to a specific format.
+
+## Extensibility
+
+There obviously needs to be a robust system to add extensibility into the application.
+
+Although there are some hard parts to figure out:
+  - Database changes
+  - UI Updates
+  - Sorting during search
+    * query parameter support during search
+  - Package settings
+
+As the frontend should basically comprise of a search page with results, and a singular item page, we need multiple ways to display custom fields.
+
+A possibility:
+
+Every package has loads of special data they can define, most obviously their settings, similar to how it's handled in Pulsar.
+
+Packages are also able to define custom metadata.
+
+A defined custom metadata then has to relate to the UI on both pages, and to the database.
+This means that likely we could do something like:
+
+A metadata item defines:
+  - Some JavaScript to run to validate it's usage as a query parameter
+  - Details similar to how settings are defined that drive how the UI is displayed, arguably this could also be used to generate query parameter validation as well.
+  - Finally some code to create a new entry in the database. This could just be some custom SQL, but that brings several issues:
+    * What happens when the package is uninstalled? Is there a custom uninstall SQL script? Is the table left forever?
+    * How do we ensure it's not malicious?
+
+### Package SQL
+
+What probably is the best thing to do is instead give every package it's own table to work with.
+The package itself never defines any custom SQL instead the data provided in it's metadata definition is used to generate a new SQL table, and define it's object structure. Then on package deletion it's optional to delete the table or not. If it's not deleted we make a copy of the metadata information to ensure it's still visible to the user, and that it can continue to function, but if it is deleted then we remove all traces, and the entire table can be removed without data risk. Maybe while optionally backing it up.
+
+What this also means is that we could define all supported metadata as a single simple file that defines the key items everything uses. Just with special support in writing to the database. Which we could surpass with using dot notation to define what table in the database we are actually writing too.
+
+This seems like the best solution, even if maybe a little bit slow on queries, but ideally, we would rarely need additional metadata fields in the actual database.
