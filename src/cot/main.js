@@ -4,6 +4,7 @@
 
 const EventEmitter = require("node:events");
 const Config = require("./config.js");
+const PackageManager = require("./package_manager.js");
 
 module.exports =
 class Cot {
@@ -12,6 +13,7 @@ class Cot {
     this.emitter = new EventEmitter();
     this.config = new Config();
     this.database = require("./database/_export.js");
+    this.packageManager = new PackageManager();
   }
 
   triggerIngress() {
