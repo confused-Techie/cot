@@ -1,0 +1,26 @@
+{
+  "name": "dimensions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "confused-Techie",
+  "license": "MIT",
+  "cot": {
+    "metadata": {
+      "width": {
+        "type": "integer",
+        "default": null,
+        "description": "Image Width in pixels."
+      },
+      "height": {
+        "type": "integer",
+        "default": null,
+        "description": "Image Height in pixels."
+      }
+    }
+  }
+}

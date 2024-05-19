@@ -21,13 +21,15 @@ let serve, dbTeardown;
     const dbUrlParsed = dbUrlReg.exec(dbUrl);
 
     // set the parsed URl as proper env
-    process.env.DB_HOST = dbUrlParsed[2];
-    process.env.DB_USER = dbUrlParsed[1];
-    process.env.DB_DB = dbUrlParsed[4];
-    process.env.DB_PORT = dbUrlParsed[3];
+    process.env.DATABASE_HOST = dbUrlParsed[2];
+    process.env.DATABASE_USER = dbUrlParsed[1];
+    process.env.DATABASE_DB = dbUrlParsed[4];
+    process.env.DATABASE_PORT = dbUrlParsed[3];
   }
 
   global.cot = new Cot();
+
+  cot.initalize();
 
   const api = require("./api/main.js");
 
