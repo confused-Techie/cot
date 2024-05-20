@@ -98,3 +98,12 @@ Such as:
   - default
 
 For the config file I want permissions to be awesome here, so we could do that with groups, where each section of permissions can be given ownership to a user group and only they are then allowed to edit the files.
+
+# MetaSchema
+
+Over the course of working on this project what started off being called `metadata` for items
+was being defined via a term `metaschema` sounded about right to me.
+But turns out there's actually a true `metaschema` initiative from NIST with a similar goal.
+
+Maybe this project could follow it more closely? Maybe I ignore it?
+https://pages.nist.gov/metaschema/specification/datatypes/#regular-expressions-in-schemas

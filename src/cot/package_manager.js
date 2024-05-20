@@ -1,5 +1,7 @@
 const fs = require("fs");
 const path = require("path");
+const metaschemaValidator = require("./metaschema_validator.js");
+const defaultMetaschema = require("../default_metaschema.js");
 
 module.exports =
 class PackageManager {
@@ -14,6 +16,11 @@ class PackageManager {
       "dimensions",
       "description"
     ];
+
+    // Load the default metaschema first
+    for (const namespace in defaultMetaschema) {
+      await this.loadMetaschema(namespace, defaultMetaschema[namespace]);
+    }
 
     for (let i = 0; i < defaultPackageList.length; i++) {
       await this.loadPackage(defaultPackageList[i], this.readPackageJson(path.join(`packages/${defaultPackageList[i]}/package.json`)));
@@ -34,9 +41,15 @@ class PackageManager {
 
     // Now to add it's elements to the database, and metadata
     if ("metaschema" in packageJson.cot) {
-      await cot.database.createTable(packageName, packageJson.cot.metaschema);
-      this.metaschema[packageName] = packageJson.metaschema;
+      await this.loadMetaschema(packageName, packageJson.cot.metaschema);
     }
+  }
+
+  async loadMetaschema(namespace, metaschema) {
+    let validatedMetaschema = metaschemaValidator(metaschema);
+
+    await cot.database.createTable(namespace, validatedMetaschema);
+    this.metaschema[namespace] = validatedMetaschema;
   }
 
   readPackageJson(location) {

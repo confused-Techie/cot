@@ -10,6 +10,12 @@ function metaschemaTypeToSQL(type) {
     case "string.500":
       value = "VARCHAR(500)";
       break;
+    case "string.256":
+      value = "VARCHAR(256)";
+      break;
+    case "uuid":
+      value = "UUID";
+      break;
     default:
       value = "VARCHAR(60)";
   }
