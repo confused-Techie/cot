@@ -15,6 +15,7 @@ let serve, dbTeardown;
 
     // lets take the value made by the test runner databse, and put it where the api server exects.
     const dbUrl = process.env.DATABASE_URL;
+    console.log(`Database available at: ${dbUrl}`);
     // This gives us something like postgres://test-user@localhost:5432/test-db
     // We then need to map these values to where the API server expects
     const dbUrlReg = /postgres:\/\/([\/\S]+)@([\/\S]+):(\d+)\/([\/\S]+)/;
@@ -22,14 +23,16 @@ let serve, dbTeardown;
 
     // set the parsed URl as proper env
     process.env.DATABASE_HOST = dbUrlParsed[2];
-    process.env.DATABASE_USER = dbUrlParsed[1];
-    process.env.DATABASE_DB = dbUrlParsed[4];
+    process.env.DATABASE_USERNAME = dbUrlParsed[1];
+    process.env.DATABASE_DATABASE = dbUrlParsed[4];
     process.env.DATABASE_PORT = dbUrlParsed[3];
   }
 
   global.cot = new Cot();
 
-  cot.initalize();
+  await cot.initialize();
+
+  console.log(cot.packageManager.packages);
 
   const api = require("./api/main.js");
 

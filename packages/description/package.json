@@ -1,5 +1,5 @@
 {
-  "name": "dimensions",
+  "name": "description",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,15 +11,10 @@
   "license": "MIT",
   "cot": {
     "metaschema": {
-      "width": {
-        "type": "integer",
-        "default": 0,
-        "description": "Image Width in pixels."
-      },
-      "height": {
-        "type": "integer",
-        "default": 0,
-        "description": "Image Height in pixels."
+      "description": {
+        "type": "string.500",
+        "default": "null",
+        "description": "Image description."
       }
     },
     "triggers": {

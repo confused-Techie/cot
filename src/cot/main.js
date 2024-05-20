@@ -18,15 +18,16 @@ class Cot {
     this.itemRegistry = new ItemRegistry();
   }
 
-  initialize() {
-    this.itemRegistry.initalize();
+  async initialize() {
+    this.itemRegistry.initialize();
+    await this.packageManager.initialize();
   }
 
   triggerIngress() {
     this.emitter.emit("ingress");
   }
 
-  triggerMetadata(data) {
+  triggerMetaschema(data) {
     this.emitter.emit("metadata", data);
   }
 

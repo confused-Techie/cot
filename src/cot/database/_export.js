@@ -4,8 +4,6 @@
  */
 
 const postgres = require("postgres");
-const config = require("../config.js")();
-const logger = require("../logger.js");
 
 let sqlStorage;
 
@@ -19,14 +17,14 @@ function setSqlStorageObject(setter) {
 
 function setupSQL() {
   const postgresOpts = {
-    host: config.DB_HOST,
-    username: config.DB_USER,
-    database: config.DB_DB,
-    port: config.DB_PORT,
+    host: cot.config.get("database.host"),
+    username: cot.config.get("database.username"),
+    database: cot.config.get("database.database"),
+    port: cot.config.get("database.port")
   };
 
   if (process.env.PROD_STATUS !== "dev") {
-    postgresOpts.password = config.DB_PASS;
+    postgresOpts.password = cot.config.get("database.password");
   }
 
   return postgres(postgresOpts);
@@ -71,7 +69,7 @@ const exportObj = {
 //  - Then we add the safe value to the object key
 
 const keys = [
-
+  "createTable"
 ];
 
 for (const key of keys) {
