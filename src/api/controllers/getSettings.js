@@ -13,10 +13,7 @@ module.exports = {
     },
     mode: "normal"
   },
-  params: {
 
-  },
-  
   async logic(params) {
 
   }

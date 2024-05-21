@@ -18,9 +18,14 @@ module.exports = {
     }
 
     for (const property in metaschema) {
+
+      if (property === "version") {
+        // We want to skip the version key
+        break;
+      }
       let line = `${property} ${metaschemaTypeToSQL(metaschema[property].type)}`;
 
-      if ("default" in metaschema[property]) {
+      if (metaschema[property].hasOwnProperty("default")) {
         line += ` DEFAULT ${metaschemaDefaults(metaschema[property].default)}`;
       }
 

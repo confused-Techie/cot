@@ -19,13 +19,13 @@ function validate(metaschema) {
 
 
   // Now to preform the actual validation on a known format.
-  if (!"reference" in convertedSchema) {
+  if (!convertedSchema.hasOwnProperty("reference")) {
     convertedSchema.reference = "core.uuid";
   }
 
   for (const property in convertedSchema) {
 
-    if (!"default" in convertedSchema[property]) {
+    if (!convertedSchema[property].hasOwnProperty("default")) {
       switch(convertedSchema[property].type) {
         case "uuid":
           convertedSchema[property].default = "random_uuid";
