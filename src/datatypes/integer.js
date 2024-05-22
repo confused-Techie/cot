@@ -17,6 +17,9 @@ module.exports = {
     }
     return true;
   },
+  cast: (value) => {
+    return parseInt(value, 10);
+  },
   sql: (_metaschema) => {
     return "INTEGER";
   },

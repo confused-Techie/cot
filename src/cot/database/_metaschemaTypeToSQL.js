@@ -7,7 +7,7 @@ function metaschemaTypeToSQL(metaschema) {
 
   switch(type) {
     case "boolean":
-      value = "BOOLEAN";
+      value = datatypes.boolean.sql(metaschema);
       break;
     case "integer":
       value = datatypes.integer.sql(metaschema);

@@ -9,6 +9,10 @@ module.exports = {
     }
     return true;
   },
+  cast: (value) => {
+    // JavaScript has no UUID datatype, so we will just ensure we are working with a String.
+    return String(value);
+  },
   sql: (_metaschema) => {
     return "UUID";
   },

@@ -15,14 +15,17 @@ const endpointHandler = async function (node, req, res) {
 
   let params = parameters.verifyParam(req);
 
-  let obj;
-
   try {
-    if (node.endpoint.endpointKind === "raw") {
-      await node.logic(req, res);
-      return;
-    } else {
-      obj = await node.logic(params);
+    let obj = await node.logic(params, req, res);
+    // Supports getting a easily testable object back, with simple sending
+    // headersSent determines if the request has already been sent to the user
+    // then still supports a falsy return from the module for an empty response.
+    if (!res.headersSent) {
+      if (obj) {
+        res.send(obj);
+      } else {
+        res.send();
+      }
     }
   } catch(err) {
     console.error(err);
@@ -30,16 +33,6 @@ const endpointHandler = async function (node, req, res) {
 
   if (typeof node.postLogic === "function") {
     await node.postLogic(req, res);
-  }
-
-  if (obj) {
-    obj.addGoodStatus(node.endpoint.successStatus);
-
-    obj.handleReturnHTTP(req, res);
-
-    if (typeof node.postReturnHTTP === "function") {
-      await node.postReturnHTTP(req, res, obj);
-    }
   }
 
   return;

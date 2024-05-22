@@ -6,15 +6,16 @@ module.exports = {
   endpoint: {
     method: "GET",
     path: "/settings",
-    rateLimit: "generic",
-    successStatus: 200,
-    options: {
-      Allow: "GET"
-    },
-    mode: "normal"
+    rateLimit: "generic"
   },
 
-  async logic(params) {
+  async logic(params, req, res) {
+    // setup our response
+    res.set("Content-Type", "text/html");
+    res.status(200);
 
+    let content = "<p>Hello World!</p>";
+
+    return content;
   }
 };

@@ -9,6 +9,9 @@ class PackageManager {
     this.metaschema = {};
     this.packageList = [];
     this.packages = {};
+    this.ingressSubscribers = [];
+    this.metaschemaSubscribers = [];
+    this.egressSubscribers = [];
   }
 
   async initialize() {

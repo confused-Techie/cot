@@ -8,7 +8,7 @@ const metaSchema = {
       description: "Universally Unique Identifier. Identifies every item."
     },
     location: {
-      type: "string.256",
+      type: "string",
       description: "Location of the item on the filesystem."
     }
   }

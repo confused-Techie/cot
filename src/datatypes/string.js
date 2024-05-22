@@ -9,6 +9,9 @@ module.exports = {
     }
     return true;
   },
+  cast: (value) => {
+    return String(value);
+  },
   sql: (metaschema) => {
     if (metaschema.maximum) {
       return `VARCHAR(${metaschema.maximum})`;

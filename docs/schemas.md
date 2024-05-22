@@ -72,7 +72,7 @@ The list below defines the text of every data type supported among the configura
   - UI: TODO
 * boolean
   - Database: logical Boolean (true/false)
-  - Parameter: TODO
+  - Parameter: boolean, accepting strings of "false"/"true".
   - UI: TODO
 * date
   - Database: TODO
