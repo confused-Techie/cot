@@ -1,4 +1,4 @@
-
+// Displays the settings UI
 module.exports = {
   docs: {
 

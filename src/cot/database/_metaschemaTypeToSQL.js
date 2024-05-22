@@ -1,17 +1,22 @@
 
 module.exports =
-function metaschemaTypeToSQL(type) {
+function metaschemaTypeToSQL(metaschema) {
+  let type = metaschema.type;
   let value;
 
   switch(type) {
+    case "boolean":
+      value = "BOOLEAN";
+      break;
     case "integer":
-      value = "BIGINT NOT NULL";
+      value = "INTEGER";
       break;
-    case "string.500":
-      value = "VARCHAR(500)";
-      break;
-    case "string.256":
-      value = "VARCHAR(256)";
+    case "string":
+      if (metaschema.maximum) {
+        value = `VARCHAR(${metaschema.maximum})`;
+      } else {
+        value = "TEXT";
+      }
       break;
     case "uuid":
       value = "UUID";

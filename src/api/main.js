@@ -13,7 +13,7 @@ const endpointHandler = async function (node, req, res) {
     await node.preLogic(req, res);
   }
 
-  let params = parameters(req);
+  let params = parameters.verifyParam(req);
 
   let obj;
 

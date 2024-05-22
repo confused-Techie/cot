@@ -33,6 +33,7 @@ let serve, dbTeardown;
   await cot.initialize();
 
   console.log(cot.packageManager.packages);
+  console.log(cot.packageManager.metaschema);
 
   const api = require("./api/main.js");
 

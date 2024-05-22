@@ -23,7 +23,7 @@ module.exports = {
         // We want to skip the version key
         break;
       }
-      let line = `${property} ${metaschemaTypeToSQL(metaschema[property].type)}`;
+      let line = `${property} ${metaschemaTypeToSQL(metaschema[property])}`;
 
       if (metaschema[property].hasOwnProperty("default")) {
         line += ` DEFAULT ${metaschemaDefaults(metaschema[property].default)}`;

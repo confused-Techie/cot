@@ -6,7 +6,7 @@ module.exports =
 function validate(metaschema) {
 
   let convertedSchema;
-
+  // namespace validation
   switch(metaschema.version) {
     case "v0.0.1":
       convertedSchema = convert_001(metaschema);
@@ -24,6 +24,7 @@ function validate(metaschema) {
   }
 
   for (const property in convertedSchema) {
+    // object validation
 
     if (!convertedSchema[property].hasOwnProperty("default")) {
       switch(convertedSchema[property].type) {
@@ -31,6 +32,10 @@ function validate(metaschema) {
           convertedSchema[property].default = "random_uuid";
           break;
       }
+    }
+
+    if (!convertedSchema[property].hasOwnProperty("type")) {
+      convertedSchema[property].type = "string";
     }
   }
 
