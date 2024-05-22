@@ -1,3 +1,4 @@
+const datatypes = require("../../datatypes/_export.js");
 
 module.exports =
 function metaschemaTypeToSQL(metaschema) {
@@ -9,20 +10,16 @@ function metaschemaTypeToSQL(metaschema) {
       value = "BOOLEAN";
       break;
     case "integer":
-      value = "INTEGER";
+      value = datatypes.integer.sql(metaschema);
       break;
     case "string":
-      if (metaschema.maximum) {
-        value = `VARCHAR(${metaschema.maximum})`;
-      } else {
-        value = "TEXT";
-      }
+      value = datatypes.string.sql(metaschema);
       break;
     case "uuid":
-      value = "UUID";
+      value = datatypes.uuid.sql(metaschema);
       break;
     default:
-      value = "VARCHAR(60)";
+      value = "TEXT";
   }
 
   return value;
