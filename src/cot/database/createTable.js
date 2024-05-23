@@ -12,20 +12,26 @@ module.exports = {
     // TODO maybe add an initial primary key to link to actual item uuid's
     if (metaschema.reference) {
       if (metaschema.reference === "core.uuid") {
-        lines.push(`uuid UUID NOT NULL REFERENCES core(uuid) PRIMARY KEY`);
+        lines.push(`uuid UUID PRIMARY KEY REFERENCES core (uuid),`);
       }
       // TODO support the reference value less egocentrically
     }
 
     for (const property in metaschema) {
 
-      if (property === "version") {
+      if (property === "version" || property === "reference") {
         // We want to skip the version key
-        break;
+        continue;
       }
+
       let line = `${property} ${metaschemaTypeToSQL(metaschema[property])}`;
 
       if (metaschema[property].hasOwnProperty("default")) {
+        let defaultValue = metaschemaDefaults(metaschema[property].default);
+
+        if (defaultValue == "GEN_RANDOM_UUID()") {
+          lines.unshift("CREATE EXTENSION pgcrypto;"); // add to beginning
+        }
         line += ` DEFAULT ${metaschemaDefaults(metaschema[property].default)}`;
       }
 

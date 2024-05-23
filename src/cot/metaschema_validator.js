@@ -28,6 +28,13 @@ function validate(metaschema) {
 
     if (!convertedSchema[property].hasOwnProperty("default")) {
       switch(convertedSchema[property].type) {
+        case "boolean":
+        case "string":
+          convertedSchema[property].default = "NULL";
+          break;
+        case "integer":
+          convertedSchema[property].default = 0;
+          break;
         case "uuid":
           convertedSchema[property].default = "random_uuid";
           break;

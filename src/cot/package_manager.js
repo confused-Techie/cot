@@ -10,7 +10,7 @@ class PackageManager {
     this.packageList = [];
     this.packages = {};
     this.ingressSubscribers = [];
-    this.metaschemaSubscribers = [];
+    this.metadataSubscribers = [];
     this.egressSubscribers = [];
   }
 
@@ -28,6 +28,34 @@ class PackageManager {
     for (let i = 0; i < defaultPackageList.length; i++) {
       await this.loadPackage(defaultPackageList[i], this.readPackageJson(path.join(`packages/${defaultPackageList[i]}/package.json`)));
     }
+
+    // Setup event listeners
+    cot.emitter.on("ingress", async (event) => {
+      for (let i = 0; i < this.ingressSubscribers.length; i++) {
+        let packageName = this.ingressSubscribers[i];
+        let funcName = this.packages[packageName].packageJson.cot.triggers.ingress;
+
+        await this.packages[packageName].instance[funcName](event);
+      }
+    });
+
+    cot.emitter.on("metadata", async (event) => {
+      for (let i = 0; i < this.metadataSubscribers.length; i++) {
+        let packageName = this.metadataSubscribers[i];
+        let funcName = this.packages[packageName].packageJson.cot.triggers.metadata;
+
+        await this.packages[packageName].instance[funcName](event);
+      }
+    });
+
+    cot.emitter.on("egress", async (event) => {
+      for (let i = 0; i < this.egressSubscribers.length; i++) {
+        let packageName = this.egressSubscribers[i];
+        let funcName = this.packages[packageName].packageJson.cot.triggers.egress;
+
+        await this.packages[packageName].instance[funcName](event);
+      }
+    });
   }
 
   async loadPackage(location, packageJson = false) {
@@ -46,13 +74,35 @@ class PackageManager {
     if ("metaschema" in packageJson.cot) {
       await this.loadMetaschema(packageName, packageJson.cot.metaschema);
     }
+
+    if ("triggers" in packageJson.cot) {
+      this.loadTriggers(packageName, packageJson.cot.triggers);
+    }
   }
 
   async loadMetaschema(namespace, metaschema) {
+    console.log(`Namespace: ${namespace}`);
     let validatedMetaschema = metaschemaValidator(metaschema);
+    console.log(validatedMetaschema);
 
     await cot.database.createTable(namespace, validatedMetaschema);
     this.metaschema[namespace] = validatedMetaschema;
+  }
+
+  loadTriggers(packageName, triggers) {
+
+    for (const trigger in triggers) {
+      if (trigger == "ingress") {
+        this.ingressSubscribers.push(packageName)
+      }
+      if (trigger == "metadata") {
+        this.metadataSubscribers.push(packageName);
+      }
+      if (trigger == "egress") {
+        this.egressSubscribers.push(pacakgeName);
+      }
+    }
+
   }
 
   readPackageJson(location) {
@@ -61,11 +111,4 @@ class PackageManager {
     return json;
   }
 
-  triggerMetaschema(data) {
-    for (const pack in this.packages) {
-      if (typeof this.packages[pack].packageJson.cot.triggers.metaschema == "function") {
-        this.packages[pack].instance[this.packages[pack].packageJson.cot.triggers.metaschema](data);
-      }
-    }
-  }
 }

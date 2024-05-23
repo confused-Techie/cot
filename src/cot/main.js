@@ -6,6 +6,7 @@ const EventEmitter = require("node:events");
 const Config = require("./config.js");
 const PackageManager = require("./package_manager.js");
 const ItemRegistry = require("./item_registry.js");
+const Item = require("./item.js");
 
 module.exports =
 class Cot {
@@ -16,6 +17,7 @@ class Cot {
     this.database = require("./database/_export.js");
     this.packageManager = new PackageManager();
     this.itemRegistry = new ItemRegistry();
+    this.Item = Item;
   }
 
   async initialize() {
@@ -27,7 +29,7 @@ class Cot {
     this.emitter.emit("ingress");
   }
 
-  triggerMetaschema(data) {
+  triggerMetadata(data) {
     this.emitter.emit("metadata", data);
   }
 

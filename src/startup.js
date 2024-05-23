@@ -34,6 +34,7 @@ let serve, dbTeardown;
 
   console.log(cot.packageManager.packages);
   console.log(cot.packageManager.metaschema);
+  cot.triggerMetadata({ obj: "hello" });
 
   const api = require("./api/main.js");
 

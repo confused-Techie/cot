@@ -1,8 +1,9 @@
 
-function collectMetaschema(data) {
-
+function collectMetadata(data) {
+  console.log("dimensions collectMetaschema called!");
+  console.log(data);
 }
 
 module.exports = {
-  collectMetaschema,
+  collectMetadata,
 };

@@ -9,6 +9,9 @@ function metaschemaDefaults(def) {
     case "random_uuid":
       value = "GEN_RANDOM_UUID()";
       break;
+    default:
+      value = def;
+      break;
   }
 
   if (def === null) {
