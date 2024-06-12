@@ -66,7 +66,7 @@ function datatypeObject(input) {
 // of the system. Taking the string declaration, objectifying it, and returning the correct
 // details based on what "translation" is being requested.
 // Valid translations:
-//  * validate: returns a function that returns false if the value provided is not
+//  * validate: returns a function that returns null if the value provided is not
 //              the type specified. Otherwise returns a safe value to work with back.
 //  * sql: returns the SQL declaration of the type.
 //  * ui: TODO
@@ -75,17 +75,18 @@ function handler(datatype, translation) {
 
   let classForDatatype = "";
   let datatypeIdx = 0;
+  let dataTypeObj;
 
   while (classForDatatype.length === 0 || datatypeIdx > datatypeArr.length) {
     // lets iterate every provided identifier of datatypes to see if we can find
     // one this version of the system supports
-    let dataTypeObj = datatypeArr[datatypeIdx];
+    dataTypeObj = datatypeArr[datatypeIdx];
 
     switch(dataTypeObj.mediaType.type) {
       case "boolean":
         switch(dataTypeObj.mediaType.subtype) {
           case "boolean":
-            classForDatatype = "boolean";
+            classForDatatype = require("./boolean.js");
             break;
         }
         break;
@@ -94,28 +95,59 @@ function handler(datatype, translation) {
           case "integer":
             classForDatatype = "number_integer";
             break;
+          case "bigint":
+            classForDatatype = "number_bigint";
+            break;
+          case "smallint":
+            classForDatatype = "number_smallint";
+            break;
+          case "decimal":
+            classForDatatype = "number_decimal";
+            break;
         }
         break;
-      case "text":
+      case "string":
         switch(dataTypeObj.mediaType.subtype) {
-          case "string":
-            classForDatatype = "text_string";
+          case "text":
+            classForDatatype = "string_text";
             break;
           case "uuid":
-            classForDatatype = "uuid";
+            classForDatatype = "string_uuid";
+            break;
+          case "email-address":
+            classForDatatype = "string_email-address";
+            break;
+          case "hostname":
+            classForDatatype = "string_hostname";
+            break;
+          case "ip-address":
+            classForDatatype = "string_ip-address";
+            break;
+          case "mac-address":
+            classForDatatype = "string_mac-address";
             break;
         }
         break;
     }
   }
 
-  if (classForDatatype.length < 1) {
+  if (typeof classForDatatype === "string" && classForDatatype.length < 1) {
     // we failed to find any valid matches
     return false;
   }
 
-  // TODO: For testing lets return the found type
-  return classForDatatype;
+  if (translation === "sql") {
+    // Return the string version of this class
+    return classForDatatype.sql;
+  } else if (translation === "ui") {
+    return classForDatatype.ui;
+  } else if (translation === "validate") {
+    // since we want to return a single function
+    return (inputValue) => {
+      return classForDatatype.validate(datatypeObj, inputValue);
+    };
+  }
+
 }
 
 
