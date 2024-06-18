@@ -1,4 +1,4 @@
-const datatypes = require("../datatypes/_export.js");
+const validateAgainstMetaschema = require("../metaschema/_export.js").validateAgainst;
 
 // Takes any key value pair of parameters
 function verifyParam(req) {
@@ -27,40 +27,6 @@ function verifyParam(req) {
   return queryObj;
 }
 
-function validateAgainstMetaschema(parameter, metaschema) {
-  let returnValue = metaschema.default;
-  console.log(`Default: ${returnValue}; Type: ${metaschema.type}`);
-  switch(metaschema.type) {
-    case "boolean":
-      if (datatypes.boolean.is(parameter)) {
-        returnValue = datatypes.boolean.cast(parameter);
-      }
-      break;
-    case "integer":
-      if (datatypes.integer.is(parameter)) {
-        returnValue = datatypes.integer.cast(parameter);
-      }
-      break;
-    case "string":
-      if (datatypes.string.is(parameter, metaschema.length)) {
-        returnValue = datatypes.string.cast(parameter);
-      }
-      break;
-    case "uuid":
-      if (datatypes.uuid.is(parameter)) {
-        returnValue = datatypes.uuid.cast(parameter);
-      }
-      break;
-    default:
-      if (datatypes.string.is(parameter, 60)) {
-        returnValue = datatypes.string.cast(parameter);
-      }
-      break;
-  }
-
-  return returnValue;
-}
-
 function paramToArray(item) {
   if (typeof item !== "string") {
     return [];
@@ -71,6 +37,5 @@ function paramToArray(item) {
 
 module.exports = {
   verifyParam,
-  validateAgainstMetaschema,
   paramToArray,
 };

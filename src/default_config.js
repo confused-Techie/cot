@@ -20,19 +20,19 @@ const configSchema = {
     type: "object",
     properties: {
       host: {
-        type: "string",
+        type: "text",
       },
       username: {
-        type: "string"
+        type: "text"
       },
       database: {
-        type: "string"
+        type: "text"
       },
       port: {
         type: "integer"
       },
       password: {
-        type: "string",
+        type: "text",
         hidden: true
       }
     }

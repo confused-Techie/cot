@@ -7,3 +7,13 @@ At this point, I think it's best to scrape all current metaschema work and start
 While the extensible system will require lots of different datatypes and values, realistically the data we are reading is already structured, (as it exists in a `package.json`) so there is no reason to reinvent the wheel here. Instead I should focus on making a format that works for now, and figure out best practices at expanding it in the future.
 
 So lets do exactly that, and get to work on the other few aspects that must exists for this application to work.
+
+# Metaschema Format
+
+Available values on every metaschema object:
+
+- type: The datatype.
+- default: Default value for this item.
+- description: A short description.
+- reference: A key to what this value references. This must include a namespace such as `core.uuid`.
+- title: A short human readable title.

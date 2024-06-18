@@ -32,7 +32,9 @@ let serve, dbTeardown;
 
   await cot.initialize();
 
+  console.log("Packages:");
   console.log(cot.packageManager.packages);
+  console.log("Global Metaschema:");
   console.log(cot.packageManager.metaschema);
   cot.triggerMetadata({ obj: "hello" });
 

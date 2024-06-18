@@ -5,10 +5,12 @@ const metaSchema = {
     reference: false,
     uuid: {
       type: "uuid",
-      description: "Universally Unique Identifier. Identifies every item."
+      default: "GEN_RANDOM_UUID()",
+      description: "Universally Unique Identifier. Identifies every item.",
+      primary: true
     },
     location: {
-      type: "string",
+      type: "text",
       description: "Location of the item on the filesystem."
     }
   }

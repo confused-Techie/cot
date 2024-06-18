@@ -11,6 +11,7 @@
   "license": "MIT",
   "cot": {
     "metaschema": {
+      "reference": "core.uuid",
       "width": {
         "type": "integer",
         "default": 0,

@@ -1,5 +1,4 @@
-const metaschemaTypeToSQL = require("./_metaschemaTypeToSQL.js");
-const metaschemaDefaults = require("./_metaschemaDefaults.js");
+const sqlify = require("../../metaschema/_export.js").sqlify;
 
 module.exports = {
   safe: true,
@@ -24,15 +23,20 @@ module.exports = {
         continue;
       }
 
-      let line = `${property} ${metaschemaTypeToSQL(metaschema[property])}`;
+      let line = `${property} ${sqlify(metaschema[property])}`;
 
       if (metaschema[property].hasOwnProperty("default")) {
-        let defaultValue = metaschemaDefaults(metaschema[property].default);
+        let defaultValue = metaschema[property].default;
 
         if (defaultValue == "GEN_RANDOM_UUID()") {
           lines.unshift("CREATE EXTENSION pgcrypto;"); // add to beginning
         }
-        line += ` DEFAULT ${metaschemaDefaults(metaschema[property].default)}`;
+        line += ` DEFAULT ${metaschema[property].default}`;
+      }
+
+      if (metaschema[property].hasOwnProperty("primary") && metaschema[property].primary) {
+        // If "primary" exists and is true
+        line += " PRIMARY KEY";
       }
 
       line += ",";

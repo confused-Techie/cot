@@ -11,9 +11,9 @@
   "license": "MIT",
   "cot": {
     "metaschema": {
+      "reference": "core.uuid",
       "description": {
-        "type": "string.500",
-        "default": "null",
+        "type": "text",
         "description": "Image description."
       }
     },
