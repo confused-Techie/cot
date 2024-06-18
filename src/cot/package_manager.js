@@ -1,6 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const metaschemaValidator = require("./metaschema_validator.js");
 const defaultMetaschema = require("../default_metaschema.js");
 
 module.exports =
@@ -82,11 +81,10 @@ class PackageManager {
 
   async loadMetaschema(namespace, metaschema) {
     console.log(`Namespace: ${namespace}`);
-    let validatedMetaschema = metaschemaValidator(metaschema);
-    console.log(validatedMetaschema);
+    console.log(metaschema);
 
-    await cot.database.createTable(namespace, validatedMetaschema);
-    this.metaschema[namespace] = validatedMetaschema;
+    await cot.database.createTable(namespace, metaschema);
+    this.metaschema[namespace] = metaschema;
   }
 
   loadTriggers(packageName, triggers) {
